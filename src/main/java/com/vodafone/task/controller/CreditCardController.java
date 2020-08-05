@@ -1,15 +1,17 @@
 package com.vodafone.task.controller;
 
 import com.vodafone.task.document.CreditCard;
+import com.vodafone.task.dto.CreditCardDTO;
 import com.vodafone.task.service.CreditCardService;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -28,4 +30,14 @@ public class CreditCardController {
         return creditCardService.getCreditCards();
     }
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public CreditCardDTO addCreditCard(@Valid @RequestBody CreditCardDTO creditCardDTO) throws Exception {
+        logger.info("--> Adding new Card ", creditCardDTO);
+        CreditCard creditCard = new CreditCard();
+        BeanUtils.copyProperties(creditCardDTO, creditCard);
+        creditCardService.addCreditCard(creditCard);
+        logger.info("--> Card Added Successfully ", creditCardDTO);
+        return creditCardDTO;
+    }
 }
