@@ -22,7 +22,7 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     @Override
     public CreditCard addCreditCard(CreditCard creditCard) {
-        throw new UnsupportedOperationException();
+        return creditCardRepo.save(creditCard);
     }
 
     @Override
