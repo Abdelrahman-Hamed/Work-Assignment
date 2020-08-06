@@ -1,15 +1,19 @@
 package com.vodafone.task.dto;
 
 import com.mongodb.lang.NonNull;
+import com.vodafone.task.document.CreditCard;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.beans.BeanUtils;
+
 import javax.validation.constraints.Pattern;
 
 @Data
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class CreditCardDTO {
 
     @NonNull
@@ -24,4 +28,10 @@ public class CreditCardDTO {
 
     @Pattern(regexp = "[\\d]{20,25}")
     private String token;
+
+    public static CreditCardDTO valueOf(CreditCard creditCard) {
+        CreditCardDTO creditCardDTO = new CreditCardDTO();
+        BeanUtils.copyProperties(creditCard, creditCardDTO);
+        return creditCardDTO;
+    }
 }
